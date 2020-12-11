@@ -1,0 +1,152 @@
+#######TABLA CLIENTE
+
+
+CREATE TABLE cliente (id_cliente BIGSERIAL PRIMARY KEY, nombre    VARCHAR(100),
+  apellido   VARCHAR(100),
+  telefono   NUMERIC,
+  email      VARCHAR(100),
+  dia_pago    NUMERIC,
+  id_suscripcion INT,
+  CONSTRAINT fk_id_suscripcion
+  FOREIGN KEY (id_suscripcion)
+  REFERENCES  suscripcion(id_suscripcion)
+  ON DELETE SET NULL);
+
+
+INSERT INTO cliente (nombre, apellido, telefono, email, dia_pago, id_suscripcion) VALUES ('Rosa', 'Araneda', 925416325, 'klajsm@email.com', 15, 1),
+ ('Jose', 'Perez', 936251235, 'kajsla@email.com', 20, 20),
+('Camila', 'Sanchez', 987456321, 'kajhs@email.com', 14, 3),
+('Josefa', 'Henriquez', 926125252, 'pqñl@gmail.com', 27, 14),
+('Daniela', 'Perez', 937452514, 'ñkhhg@email.com', 9, 5),
+('Jazmin', 'Palacios', 946326523, 'qposk@email.com', 6, 6),
+('Valentina', 'Figueroa', 921452142, 'dskjhf@email.com', 7, 7),
+('Constanza', 'Retamales', 931541274, 'añljsa@email.com', 7, 8),
+('Belen', 'Araya', 965412125, 'qmznxj@email.com', 9, 10),
+('Rafael', 'Garay', 921212140, 'mznzka@email.com', 9, 9),
+('Carlos', 'Valdivia', 923122336, 'jais@email.com', 4, 13),
+('Valeska', 'Soro', 941141451, 'lajaa@email.com', 5, 12 ),
+('Rocío', 'Miranda', 954545454, 'lkaa@email.com', 5, 15),
+('Tamara', 'Valdivia', 945451212, 'iuqiqu@email.com', 3, 11),
+('Romina', 'Valenzuela', 921212145, 'poqpoq@email.com', 8, 14),
+('Tomas', 'Aguirre', 923543432, 'mcnjd@email.com', 8, 20),
+('Juan', 'Veloso', 954545478, 'ñalaks@email.com', 2, 18),
+('Claudia', 'Armijo', 963256325, 'jajajha@email.com', 2, 19),
+('Priscila', 'Avello', 987457845, 'jpepe@email.com', 1, 19),
+('Antonio', 'Martinez', 945414243, 'mzkaka@email.com', 1, 17);
+
+
+
+
+
+
+
+###############TABLA SUSCRIPCIÓN
+
+
+
+
+
+CREATE TABLE suscripcion (id_suscripcion BIGSERIAL PRIMARY KEY, nombre_suscripcion VARCHAR(50), detalle_suscripcion VARCHAR(100), precio_suscripcion NUMERIC);
+
+
+
+
+INSERT INTO suscripcion (nombre_suscripcion, detalle_suscripcion, precio_suscripcion) VALUES ('anualfull', 'liberado', 1000000), ('semestralfull', 'liberado', 580000), ('trimestralfull', 'liberado', 320000), ('mensualfull', 'liberado', 120000), ('nocturnafull', 'liberado', 500000), ('anualgolden', '3 clases + 2 hr musculacion personalizada con entrenador', 800000), ('semestralgolden', '3 clases + 2 hr musculacion personalizada con entrenador', 450000), ('trimestralgolden', '3 clases + 2 hr musculacion personalizada con entrenador', 280000), ('mensualgolden', '3 clases + 2 hr musculacion personalizada con entrenador', 100000), ('nocturnagolden', '3 clases + 2 hr musculacion personalizada con entrenador', 350000), ('anualsilver', '3 veces a la semana de 3 hr', 700000), ('semestralsilver', '3 veces a la semana de 3 hr', 370000), ('trimestralsilver', '3 veces a la semana de 3 hr', 230000), ('mensualsilver', '3 veces a la semana de 3 hr', 90000), ('nocturnasilver', '3 veces a la semana de 3 hr', 200000), ('anualbronce', '2 veces a la semana 2 horas', 400000), ('semestralbronce', '2 veces a la semana 2 horas', 220000), ('trimestralbronce', '2 veces a la semana 2 horas', 150000),
+ ('mensualbronce', '2 veces a la semana 2 horas', 70000), ('nocturnabronce', '2 veces a la semana 2 horas', 80000);   
+
+
+
+
+
+###############TABLA CATEGORÍA PASES
+
+CREATE TABLE categoria_pase (
+id_categoria_pase BIGSERIAL PRIMARY KEY,
+nombre_categoria varchar(30),
+precio_categoria numeric
+);
+
+INSERT INTO categoria_pase (nombre_categoria, precio_categoria) VALUES
+('pase diario tarde', 5000),
+('pase diario mañana', 5000),
+('pase semanal tarde', 3000),
+('pase semanal mañana', 3000);
+
+
+
+
+##############TABLA PASE DIARIO
+
+
+CREATE TABLE pase_diario (id_pase_diario  BIGSERIAL PRIMARY KEY, 
+                            id_categoria_pase INT, 
+                            id_cliente INT, 
+                            fecha_pase_diario     DATE,
+                            descripcion_pase_diario VARCHAR(30),
+                                  CONSTRAINT fk_id_cliente
+                                    FOREIGN KEY (id_cliente)
+                                     REFERENCES cliente(id_cliente)
+                                     ON DELETE SET NULL,
+                                  CONSTRAINT fk_id_categoria_pase
+                                    FOREIGN KEY (id_categoria_pase)
+                                     REFERENCES categoria_pase(id_categoria_pase)
+                                     ON DELETE SET NULL);
+
+INSERT INTO pase_diario (id_categoria_pase, id_cliente, fecha_pase_diario, descripcion_pase_diario) VALUES (1, 2, '2020-04-12', 'pase diario tarde'), (2, 3, '2020-10-01', 'pase semanal mañana');
+
+
+
+##############TABLA PRODUCTOS
+
+CREATE TABLE tipo_producto (
+id_tipo_producto bigserial primary key,
+nombre_producto varchar(30),
+precio_producto numeric);
+
+INSERT INTO tipo_producto (nombre_producto, precio_producto) VALUES  ('Energética', 2000),
+ ('Agua', 500), ('Barra proteína', 1000), ('Fruta', 500), ('Toalla', 10000), 
+('Pack útiles aseo', 10000), ('Café', 1000), ('Sándwich', 2000), ('Gorro piscina', 3000) ('Mancuernas 2kg', 8000);
+
+
+
+
+##########TABLA TRANSACCIÓN
+
+CREATE TABLE transaccion_venta (id_transaccion_venta    BIGSERIAL PRIMARY KEY,
+                                  id_cliente         INT,
+                                  id_tipo_producto        INT,
+                                  fecha_venta             DATE,
+                                  cantidad           NUMERIC,
+                                   CONSTRAINT fk_cliente
+                                    FOREIGN KEY (id_cliente)
+                                     REFERENCES cliente(id_cliente)
+                                     ON DELETE SET NULL,
+                                    CONSTRAINT fk_id_tipo_producto
+                                    FOREIGN KEY (id_tipo_producto)
+                                     REFERENCES tipo_producto(id_tipo_producto)
+                                     ON DELETE SET NULL );
+
+INSERT INTO transaccion_venta (id_cliente, id_tipo_producto, fecha_venta, cantidad) VALUES (1, 2, '2020-03-12', 3), (3, 5, '2020-07-14', 1), (10, 10, '2020-09-23', 5), (15, 6, '2020-11-07', 2);
+
+
+
+
+###############TABLA CLASES
+
+
+CREATE TABLE clase (
+id_clases bigserial,
+nombre_clase varchar(30));
+
+INSERT INTO clase (nombre_clase) VALUES
+('crossfit'),
+('yoga'),
+('localizado'),
+('spinning'),
+('baile fitness'),
+('natación'),
+('defensa personal');
+
+
+
+
